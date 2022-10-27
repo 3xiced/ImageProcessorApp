@@ -23,11 +23,13 @@ public:
 private:
     void processImageContrast();
     void processImageGrayscale();
+    void processImagePlain();
     void chooseFilter();
     bool loadFile(const QString &fileName);
     void setImage(const QImage &image);
     void open();
     void applyFilter(Core::IFilter * filter, Core::FilterSettings * additionalFilterSettings = nullptr);
+    void removeFilter(Core::IFilter* filter);
 
 private:
     typedef QMap<int, QMap<Core::IFilter*, QImage*>*> LayerFilterImage;

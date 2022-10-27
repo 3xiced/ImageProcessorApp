@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::processImageContrast);
     connect(ui->radioButton_2, &QRadioButton::toggled,
             this, &MainWindow::processImageGrayscale);
+    connect(ui->radioButton, &QRadioButton::toggled,
+            this, &MainWindow::processImagePlain);
 
     filterApplier = new Core::FilterApplier;
 
@@ -75,7 +77,7 @@ void MainWindow::applyFilter(Core::IFilter * filter, Core::FilterSettings * addi
         }
         else
         {
-            // Указатель на IFilter активного фильтра
+            // Указатель на IFilter активного фильтра|
             Core::IFilter * key = filterImage->firstKey();
             // Указатель на QImage для того фильтра, что сейчас активен
             image = *filterImage->find(key);
@@ -103,6 +105,42 @@ void MainWindow::applyFilter(Core::IFilter * filter, Core::FilterSettings * addi
     }
 }
 
+void MainWindow::removeFilter(Core::IFilter* filter)
+{
+    int maxLayer = layerFilterImage.lastKey();
+    if (maxLayer == 0)
+        return;
+
+    bool found = false;
+    for (int i = 1; i <= maxLayer; i++)
+    {
+        if (found) {
+            auto it = layerFilterImage.find(i);
+            layerFilterImage.erase(it);
+            continue;
+        }
+        QMap<Core::IFilter*, QImage*>* filterImage = layerFilterImage[i];
+        if (filterImage->count(filter) == 1) {
+            found = true;
+            auto it = layerFilterImage.find(i);
+            layerFilterImage.erase(it);
+        }
+    }
+    if (layerFilterImage.lastKey() != 0) {
+        maxLayer = layerFilterImage.lastKey();
+        QMap<Core::IFilter*, QImage*>* filterImage = layerFilterImage[maxLayer];
+        // Указатель на IFilter активного фильтра
+        Core::IFilter* key = filterImage->firstKey();
+        // Указатель на QImage для того фильтра, что сейчас активен
+        auto image = *filterImage->find(key);
+        ui->labelImageContainer->setPixmap(QPixmap::fromImage(*image));
+    }
+    else {
+        ui->labelImageContainer->setPixmap(QPixmap::fromImage(pm));
+    }
+    ui->labelImageContainer->setScaledContents(true);
+}
+
 void MainWindow::processImageContrast()
 {
     Core::FilterSettings * filterSettings = new Core::FilterSettings();
@@ -119,6 +157,14 @@ void MainWindow::processImageGrayscale()
     filterApplier->setFilter(grayscaleFilter);
     filterSettings->strenght = ui->contrastSlider->value();
     applyFilter(grayscaleFilter, filterSettings);
+}
+
+void MainWindow::processImagePlain()
+{
+    if (!ui->radioButton->isChecked())
+        return;
+    removeFilter(grayscaleFilter);
+    processImageContrast();
 }
 
 bool MainWindow::loadFile(const QString &fileName)
