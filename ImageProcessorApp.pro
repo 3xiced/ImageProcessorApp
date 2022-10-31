@@ -11,6 +11,9 @@ CONFIG += c++14
 SOURCES += \
     Core/Filters/contrastfilter.cpp \
     Core/Filters/grayscalefilter.cpp \
+    Core/Filters/prewitt.cpp \
+    Core/Filters/scharr.cpp \
+    Core/Filters/sobelfilter.cpp \
     Core/filterapplier.cpp \
     main.cpp \
     mainwindow.cpp
@@ -18,6 +21,9 @@ SOURCES += \
 HEADERS += \
     Core/Filters/contrastfilter.h \
     Core/Filters/grayscalefilter.h \
+    Core/Filters/prewitt.h \
+    Core/Filters/scharr.h \
+    Core/Filters/sobelfilter.h \
     Core/filterapplier.h \
     Core/filtersettings.h \
     Core/ifilter.h \

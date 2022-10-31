@@ -6,6 +6,9 @@
 #include "Core/ifilter.h"
 #include "Core/Filters/grayscalefilter.h"
 #include "Core/Filters/contrastfilter.h"
+#include "Core/Filters/sobelfilter.h"
+#include "Core/Filters/scharrfilter.h"
+#include "Core/Filters/prewittfilter.h"
 #include <QMultiMap>
 
 QT_BEGIN_NAMESPACE
@@ -24,6 +27,9 @@ private:
     void processImageContrast();
     void processImageGrayscale();
     void processImagePlain();
+    void processImageSobel();
+    void processImageScharr();
+    void processImagePrewitt();
     void chooseFilter();
     bool loadFile(const QString &fileName);
     void setImage(const QImage &image);
@@ -41,5 +47,8 @@ private:
     // Filters
     Core::Filters::GrayscaleFilter * grayscaleFilter;
     Core::Filters::ContrastFilter * contrastFilter;
+    Core::Filters::SobelFilter * sobelFilter;
+    Core::Filters::PrewittFilter* prewittFilter;
+    Core::Filters::ScharrFilter* scharrFilter;
 };
 #endif // MAINWINDOW_H

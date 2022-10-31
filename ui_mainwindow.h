@@ -44,6 +44,11 @@ public:
     QSlider *contrastSlider;
     QSpacerItem *verticalSpacer;
     QWidget *tab_2;
+    QVBoxLayout *verticalLayout_3;
+    QRadioButton *radioButton_3;
+    QRadioButton *radioButton_4;
+    QRadioButton *radioButton_5;
+    QSpacerItem *verticalSpacer_2;
     QPushButton *saveFileButton;
     QPushButton *openFileButton;
 
@@ -114,6 +119,27 @@ public:
         tabWidget->addTab(tab_1, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
+        verticalLayout_3 = new QVBoxLayout(tab_2);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        radioButton_3 = new QRadioButton(tab_2);
+        radioButton_3->setObjectName(QStringLiteral("radioButton_3"));
+
+        verticalLayout_3->addWidget(radioButton_3);
+
+        radioButton_4 = new QRadioButton(tab_2);
+        radioButton_4->setObjectName(QStringLiteral("radioButton_4"));
+
+        verticalLayout_3->addWidget(radioButton_4);
+
+        radioButton_5 = new QRadioButton(tab_2);
+        radioButton_5->setObjectName(QStringLiteral("radioButton_5"));
+
+        verticalLayout_3->addWidget(radioButton_5);
+
+        verticalSpacer_2 = new QSpacerItem(20, 339, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_3->addItem(verticalSpacer_2);
+
         tabWidget->addTab(tab_2, QString());
 
         verticalLayout->addWidget(tabWidget);
@@ -137,7 +163,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -152,6 +178,9 @@ public:
         radioButton->setText(QApplication::translate("MainWindow", "Colored", nullptr));
         radioButton_2->setText(QApplication::translate("MainWindow", "Grayscale", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_1), QApplication::translate("MainWindow", "Contrast", nullptr));
+        radioButton_3->setText(QApplication::translate("MainWindow", "\320\237\321\200\321\216\320\270\321\202\321\202", nullptr));
+        radioButton_4->setText(QApplication::translate("MainWindow", "\320\241\320\276\320\261\320\265\320\273\321\214", nullptr));
+        radioButton_5->setText(QApplication::translate("MainWindow", "\320\251\320\260\321\200\321\200", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Gradient", nullptr));
         saveFileButton->setText(QApplication::translate("MainWindow", "Save File", nullptr));
         openFileButton->setText(QApplication::translate("MainWindow", "Open File", nullptr));

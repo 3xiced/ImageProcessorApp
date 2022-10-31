@@ -23,12 +23,20 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::processImageGrayscale);
     connect(ui->radioButton, &QRadioButton::toggled,
             this, &MainWindow::processImagePlain);
+    connect(ui->radioButton_4, &QRadioButton::toggled,
+            this, &MainWindow::processImageSobel);
+    connect(ui->radioButton_3, &QRadioButton::toggled,
+            this, &MainWindow::processImageScharr);
+    connect(ui->radioButton_5, &QRadioButton::toggled,
+            this, &MainWindow::processImagePrewitt);
 
     filterApplier = new Core::FilterApplier;
 
     contrastFilter = new Core::Filters::ContrastFilter;
     grayscaleFilter = new Core::Filters::GrayscaleFilter;
-
+    sobelFilter = new Core::Filters::SobelFilter;
+    scharrFilter = new Core::Filters::ScharrFilter;
+    prewittFilter = new Core::Filters::PrewittFilter;
 }
 
 MainWindow::~MainWindow()
@@ -40,6 +48,9 @@ void MainWindow::chooseFilter()
 {
     int activeTabIndex = ui->tabWidget->currentIndex();
     if (activeTabIndex == 0) {
+        layerFilterImage = { {0, nullptr} };
+    }
+    else if (activeTabIndex == 1) {
         layerFilterImage = { {0, nullptr} };
     }
 }
@@ -157,6 +168,33 @@ void MainWindow::processImageGrayscale()
     filterApplier->setFilter(grayscaleFilter);
     filterSettings->strenght = ui->contrastSlider->value();
     applyFilter(grayscaleFilter, filterSettings);
+}
+
+void MainWindow::processImageSobel()
+{
+    if (!ui->radioButton_4->isChecked())
+        return;
+    Core::FilterSettings* filterSettings = new Core::FilterSettings();
+    filterApplier->setFilter(sobelFilter);
+    applyFilter(sobelFilter, filterSettings);
+}
+
+void MainWindow::processImageScharr()
+{
+    if (!ui->radioButton_3->isChecked())
+        return;
+    Core::FilterSettings* filterSettings = new Core::FilterSettings();
+    filterApplier->setFilter(scharrFilter);
+    applyFilter(scharrFilter, filterSettings);
+}
+
+void MainWindow::processImagePrewitt()
+{
+    if (!ui->radioButton_5->isChecked())
+        return;
+    Core::FilterSettings* filterSettings = new Core::FilterSettings();
+    filterApplier->setFilter(prewittFilter);
+    applyFilter(prewittFilter, filterSettings);
 }
 
 void MainWindow::processImagePlain()
